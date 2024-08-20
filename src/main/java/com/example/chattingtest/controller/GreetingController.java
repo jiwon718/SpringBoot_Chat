@@ -1,5 +1,7 @@
-package com.example.chattingtest;
+package com.example.chattingtest.controller;
 
+import com.example.chattingtest.dto.Greeting;
+import com.example.chattingtest.dto.HelloMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.example.chattingtest;
+package com.example.chattingtest.dto;
 
 public class Greeting {
 
