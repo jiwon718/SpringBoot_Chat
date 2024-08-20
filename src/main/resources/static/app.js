@@ -1,12 +1,14 @@
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://localhost:8080/chatting'
+    brokerURL: 'ws://localhost:8080/chat'
 });
 
 stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/topic/greetings', (greeting) => {
-        showGreeting(JSON.parse(greeting.body).content);
+
+    const roomId = $("#roomId").val();
+    stompClient.subscribe(`/sub/chat/rooms/${roomId}`, (message) => {
+        showMessage(JSON.parse(message.body));
     });
 };
 
@@ -41,20 +43,36 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendName() {
+function sendMessage() {
+    const roomId = $("#roomId").val();
+    const username = $("#username").val();
+    const message = $("#message").val();
+
+    const chatMessageRequest = {
+        username: username,
+        message: message
+    }
+
     stompClient.publish({
-        destination: "/app/hello",
-        body: JSON.stringify({'name': $("#name").val()})
+        destination: `/pub/chat/rooms/${roomId}`,
+        body: JSON.stringify(chatMessageRequest),
+        headers: {
+            "Content-Type": "application/json"
+        }
     });
 }
 
-function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+function showMessage(chatMessage) {
+    const username = chatMessage.username;
+    const message = chatMessage.message;
+    
+    const row = `<tr><td>${username}: ${message}</td></tr>`;
+    $("#greetings").append(row);
 }
 
 $(function () {
     $("form").on('submit', (e) => e.preventDefault());
     $( "#connect" ).click(() => connect());
     $( "#disconnect" ).click(() => disconnect());
-    $( "#send" ).click(() => sendName());
+    $( "#send" ).click(() => sendMessage());
 });
