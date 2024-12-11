@@ -10,6 +10,6 @@ ChatGPT API를 활용하여 번역하는 과정을 포함한 전 과정을 살�
 
 :white_check_mark: 간단한 다대다 채팅하기  
 :white_check_mark: 방을 구분하여 다대다 채팅하기  
-:white_large_square: MongoDB에 채팅 메시지 저장하기  
+:white_check_mark: MongoDB에 채팅 메시지 저장하기  
 :white_large_square: RabbitMQ을 사용하여 메인 서버와 통신하기  
 :white_large_square: Spring Security + JWT 적용하여 사용자 인증하기
